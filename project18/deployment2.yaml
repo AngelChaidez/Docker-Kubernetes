@@ -17,16 +17,17 @@ spec:
         image: nginx:latest
         ports:
         - containerPort: 80
-        - containerPort: 443
         volumeMounts:
         - name: html
           mountPath: /usr/share/nginx/html
-        - name: ssl-certs
-          mountPath: /etc/ssl/certs
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsUser: 0
       volumes:
       - name: html
         configMap:
           name: deployment2-config
-      - name: ssl-certs
-        secret:
-          secretName: ssl-certs
+          items:
+            - key: index.html
+              path: index.html 
+   

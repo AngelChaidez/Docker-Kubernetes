@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+        - name: ssl-certs
+          mountPath: /etc/ssl/certs
+      volumes:
+      - name: html
+        configMap:
+          name: deployment1-config
+      - name: ssl-certs
+        secret:
+          secretName: ssl-certs
+          

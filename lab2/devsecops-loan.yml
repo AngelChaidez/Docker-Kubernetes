@@ -52,7 +52,7 @@ spec:
           periodSeconds: 30
           timeoutSeconds: 5
           failureThreshold: 5
-  replicas: 2
+  replicas: 1
 
 ---
 

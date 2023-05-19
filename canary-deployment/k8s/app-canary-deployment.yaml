@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-canary
+spec:
+  replicas: 3 # Add more replicas, just for fun.
+  selector:
+    matchLabels:
+      app: api
+      lifecycle: canary # Ensure the lifecycle label is set to canary
+  template:
+    metadata:
+      labels:
+        app: api
+        lifecycle: canary # Ensure the lifecycle label is set to canary
+ 
+    spec:
+      containers:
+      - name: api
+        image: hashicorp/http-echo
+        args:
+          - -listen=:8080
+          # Add the expected response as requested in the task
+          - -text={'runs_on':'kubernetes','lifecycle':'canary','api_version':'v2'}

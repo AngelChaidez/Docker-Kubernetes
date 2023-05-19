@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-stable
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+      lifecycle: stable
+  template:
+    metadata:
+      labels:
+        app: api
+        lifecycle: stable
+    spec:
+      containers:
+      - name: api
+        image: hashicorp/http-echo
+        args:
+          - -listen=:8080
+          - -text={'runs_on':'kubernetes','lifecycle':'stable','api_version':'v1'}
